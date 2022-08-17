@@ -1,0 +1,516 @@
+﻿
+@{
+    ViewBag.Title = "Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-primary">
+        <h6 class="m-0 font-weight-bold text-white">Lista de Clientes</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-success btn-sm" type="button" onclick="abrirModal(null)">Crear Nuevo</button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tabla" style="width:100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Tipo Documento</th>
+                                <th>Nro Documento</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Telefono</th>
+                                <th>Correo</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <!--<tfoot>
+                            <tr>
+                                <th>Tipo Documento</th>
+                                <th>Nro Documento</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>-->
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 1050px!important;">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="txtid" type="hidden" value="0" />
+                <form id="formNivel" class="needs-validation" novalidate>
+                    <div class="card bordered">
+                        <div class="card-header cs-boorder-header-bg" style="color:white;">
+                            Datos del cliente
+                        </div>
+                        <div class="card-body">
+                            <!--div #collapse="ngbCollapse" [(ngbCollapse)]="isMonedaCollapsed"-->
+                            <div>
+                                <div class="card">
+                                    <div class="card-body tiny">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Tipo Documento:</label>
+                                                    <select class="form-control" id="cbotipodocumento" required>
+                                                        <option value="DNI">DNI</option>
+                                                        <option value="PASAPORTE">PASAPORTE</option>
+                                                        <option value="CARNET EXTRANJERIA">CARNET EXTRANJERIA</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">Ingrese el tipo de documento</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Nro Documento:</label>
+                                                    <input type="text" class="form-control required" id="txtdocumento" name="descripcion" autocomplete="off" required>
+                                                    <div class="invalid-feedback">Ingrese el documento</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Nombre:</label>
+                                                    <input type="text" class="form-control" id="txtnombre" name="descripcion" autocomplete="off" required>
+                                                    <div class="invalid-feedback">Ingrese sus nombres</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Apellido:</label>
+                                                    <input type="text" class="form-control required" id="txtapellido" name="descripcion" autocomplete="off" required>
+                                                    <div class="invalid-feedback">Ingrese sus apellidos</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Telefono:</label>
+                                                    <input type="text" class="form-control required" id="txttelefono" name="descripcion" autocomplete="off" required>
+                                                    <div class="invalid-feedback">Ingrese Telefono</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Correo:</label>
+                                                    <input type="text" class="form-control required" id="txtcorreo" name="descripcion" autocomplete="off" required>
+                                                    <div class="invalid-feedback">Ingrese correo electrónico</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="cboEstado">Estado:</label>
+                                                    <select id="cboEstado" class="form-control" required>
+                                                        <option value="1">Activo</option>
+                                                        <option value="0">No Activo</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">Ingrese el estado</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="card bordered">
+                        <div class="card-header cs-boorder-header-bg" style="color:white;">
+                            Datos del vehículo
+                        </div>
+                        <div class="card-body">
+                            <!--div #collapse="ngbCollapse" [(ngbCollapse)]="isMonedaCollapsed"-->
+                            <div>
+                                <div class="card">
+                                    <div class="card-body tiny">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Placa:</label>
+                                                    <input type="text" class="form-control required" id="txtplaca" name="descripcion" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Marca:</label>
+                                                    <input type="text" class="form-control required" id="txtmarca" name="descripcion" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Modelo:</label>
+                                                    <input type="text" class="form-control required" id="txtmodelo" name="descripcion" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtdescripcion">Color:</label>
+                                                    <input type="text" class="form-control required" id="txtcolor" name="descripcion" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="cboTipoVehiculo">Tipo Vehiculo:</label>
+                                                    <select id="cboTipoVehiculo" class="form-control">
+                                                        <option value="1">CAMIONETA</option>
+                                                        <option value="2">AUTO</option>
+                                                        <option value="3">BAN</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>&nbsp;</label>
+                                                    <button id="btnagregarvehiculo" class="btn btn-success btn-block" type="button">Agregar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="tbvehiculo" style="width:100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Placa</th>
+                                                        <th>Marca</th>
+                                                        <th>Modelo</th>
+                                                        <th>Color</th>
+                                                        <th>Tipo</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <!--<tfoot>
+                                                    <tr>
+                                                        <th>Tipo Documento</th>
+                                                        <th>Nro Documento</th>
+                                                        <th>Nombre</th>
+                                                        <th>Apellido</th>
+                                                        <th>Correo</th>
+                                                        <th>Estado</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>-->
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script>
+        var tabladata;
+        var accion;
+
+        $(document).ready(function () {
+
+            tabladata = $('#tabla').DataTable({
+                responsive:true,
+                "ajax": {
+                    "url": '@Url.Action("ListarPersona", "Inicio")',
+                    "type": "GET",
+                    "datatype": "json",
+                    "dataSrc": function (json) {
+                        return json.data.filter(function (item) {
+                            return item.oTipoPersona.IdTipoPersona == 3;
+                        });
+                    }
+                },
+                "columns": [
+                    { "data": "TipoDocumento" },
+                    { "data": "Documento" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido" },
+                    { "data": "Correo" },
+                    {
+                        "data": "Estado", "render": function (data) {
+                            if (data) {
+                                $(".needs-validation").removeClass("was-validated")
+                                return '<span class="badge badge-success p-2">Activo</span>'
+                            } else {
+                                return '<span class="badge badge-danger p-2">No Activo</span>'
+                            }
+                        }
+                    },
+                    {
+                        "data": "IdPersona", "render": function (data, type, row, meta) {
+
+                            return $("<button>").addClass("btn btn-primary btn-editar btn-sm").append(
+                                $("<i>").addClass("fas fa-pen")
+                            ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML
+                            +
+                            $("<button>").addClass("btn btn-danger btn-eliminar btn-sm ml-2").append(
+                                $("<i>").addClass("fas fa-trash")
+                            ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+
+                ],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        });
+
+
+
+        $(document).on('click', '.btn-editar', function (event) {
+            var json = $(this).data("informacion")
+            abrirModal(json)
+        });
+
+        function abrirModal(json) {
+            $("#txtid").val(0);
+            $("#cbotipodocumento").val($("#cbotipodocumento option:first").val());
+            $("#txtdocumento").val("");
+            $("#txtnombre").val("");
+            $("#txtapellido").val("");
+            $("#txttelefono").val("");
+            $("#txtcorreo").val("");
+            $("#txtplaca").val("");
+            $("#txtmarca").val("");
+            $("#txtmodelo").val("");
+            $("#txtcolor").val("");
+            $("#cboTipoVehiculo").val(1);
+            $("#cboEstado").val("");
+            $("#cboEstado").val(1);
+            $("#tbvehiculo > tbody").empty();
+            accion = 1;
+
+            if (json != null) {
+                accion = 2;
+                $("#txtid").val(json.IdPersona);
+                $("#cbotipodocumento").val(json.TipoDocumento);
+                $("#txtdocumento").val(json.Documento);
+                $("#txtnombre").val(json.Nombre);
+                $("#txtapellido").val(json.Apellido);
+                $("#txttelefono").val(json.Telefono);
+                $("#txtcorreo").val(json.Correo);
+                $("#cboEstado").val(json.Estado == true ? 1 : 0);
+                debugger;
+
+                   jQuery.ajax({
+                        url: '@Url.Action("ListarVehiculosXpersona", "Inicio")' + '?idpersona=' + json.IdPersona,
+                        type: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data) {
+                                $("#tbvehiculo > tbody").empty();
+                                $.each(data.data, function (index, value) {
+                                    $("#tbvehiculo").append(
+                                        $("<tr>").append(
+                                            $("<td>").text(value.Placa),
+                                            $("<td>").text(value.Marca),
+                                            $("<td>").text(value.Modelo),
+                                            $("<td>").text(value.Color),
+                                            $("<td>").text(value.oTipoVehiculo.Descripcion),
+                                            $("<td>").append(
+                                                $("<button>").addClass("btn btn-outline-danger btn-sm eliminar-vehiculo").attr({ "type": "button" }).append($("<i>").addClass("fas fa-trash"))
+                                            ).attr({ "align": "center" })
+                                        ).data("infoVehicle", JSON.stringify({ IdVehiculo: value.IdVehiculo, Placa: value.Placa, IdTipoVehiculo: parseInt(value.oTipoVehiculo.IdTipoVehiculo) }))
+                                    )
+                                });
+                               
+                            } else {
+                                swal("Lo sentimos", "No se pudo guardar los cambios", "warning");
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                        beforeSend: function () {
+
+                        },
+                    });
+            }
+            $('#FormModal').modal('show');
+        }
+
+        $(document).on('click', '.btn-eliminar', function (event) {
+            var json = $(this).data("informacion")
+
+            jQuery.ajax({
+                url: '@Url.Action("EliminarPersona", "Inicio")',
+                type: "POST",
+                data: JSON.stringify({ id: json.IdPersona}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.resultado) {
+                        tabladata.ajax.reload();
+                    } else {
+                        swal("Lo sentimos", "No se pudo eliminar", "warning");
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+
+                },
+            });
+        });
+
+        function Guardar() {
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+
+            if (form.checkValidity()) {
+                console.log("Listo para registrar");
+                debugger;
+            var datavehiculo = [];
+            $('#tbvehiculo > tbody  > tr').each(function (e) {
+                datavehiculo.push(
+                    {
+                        IdVehiculo: JSON.parse($(this).data("infoVehicle")).IdVehiculo,
+                        Placa: $(this).find("td:eq(0)").text(),
+                        Marca: $(this).find("td:eq(1)").text(),
+                        Modelo: $(this).find("td:eq(2)").text(),
+                        Color: $(this).find("td:eq(3)").text(),
+                        oTipoVehiculo: { IdTipoVehiculo : JSON.parse($(this).data("infoVehicle")).IdTipoVehiculo }
+                    }
+                )
+            });
+
+            var request = {
+                objeto: {
+                    IdPersona: $("#txtid").val(),
+                    TipoDocumento: $("#cbotipodocumento").val(),
+                    Documento: $("#txtdocumento").val(),
+                    Nombre: $("#txtnombre").val(),
+                    Apellido: $("#txtapellido").val(),
+                    Telefono: $("#txttelefono").val(),
+                    Correo: $("#txtcorreo").val(),
+                    oTipoPersona: { IdTipoPersona: 3 },
+                    Estado: parseInt($("#cboEstado").val()) == 1 ? true : false,
+                    oVehicles: datavehiculo,
+                }
+            }
+
+            jQuery.ajax({
+                url: '@Url.Action("GuardarPersona", "Inicio")',
+                type: "POST",
+                data: JSON.stringify(request),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.resultado) {
+                        tabladata.ajax.reload();
+                        $('#FormModal').modal('hide');
+                        if (accion == 1)
+                            swal("Listo", "El cliente fue registrado con éxito", "success");
+                        else
+                            swal("Listo", "El cliente fue actualizado con éxito", "success");
+                    } else {
+                        swal("Lo sentimos", "No se pudo guardar los cambios", "warning");
+
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+
+                },
+            });
+            } else {
+                console.log("no paso validacion")
+            }
+
+            form.classList.add('was-validated')
+          })
+        }
+
+        $("#btnagregarvehiculo").on("click", function (e) {
+            debugger;
+            var existe_vehiculo = false;
+            $('#tbvehiculo > tbody  > tr').each(function (e) {
+                if ($("#txtplaca").val() == JSON.parse($(this).data("infoVehicle")).Placa) {
+                    existe_vehiculo = true;
+                    swal("Lo sentimos", "La placa ingresada ya se encuentra en el detalle", "warning");
+                    return false;
+                }
+            });
+
+            if (!existe_vehiculo) {
+                $("#tbvehiculo").append(
+                    $("<tr>").append(
+                        $("<td>").text($("#txtplaca").val()),
+                        $("<td>").text($("#txtmarca").val()),
+                        $("<td>").text($("#txtmodelo").val()),
+                        $("<td>").text($("#txtcolor").val()),
+                        $("<td>").text($("#cboTipoVehiculo option:selected").text()),
+                        $("<td>").append(
+                            $("<button>").addClass("btn btn-outline-danger btn-sm eliminar-vehiculo").attr({ "type": "button" }).append($("<i>").addClass("fas fa-trash"))
+                        ).attr({ "align": "center" })
+                    ).data("infoVehicle", JSON.stringify({ IdVehiculo: 0, Placa: $("#txtplaca").val(), IdTipoVehiculo: parseInt($("#cboTipoVehiculo option:selected").val())}))
+                )
+            }
+        })
+
+        $(document).on("click", ".eliminar-vehiculo", function (e) {
+            $(this).parents("tr").remove();
+        })
+
+
+    </script>
+
+}
+
+
+
